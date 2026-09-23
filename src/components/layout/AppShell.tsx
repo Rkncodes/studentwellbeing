@@ -4,7 +4,7 @@ import { LayoutDashboard, FilePlus2, ListChecks, GraduationCap } from 'lucide-re
 import { CURRENT_STUDENT } from '../../config/currentStudent';
 
 const NAV_ITEMS = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/new-request', label: 'New Request', icon: FilePlus2, end: false },
   { to: '/my-requests', label: 'My Requests', icon: ListChecks, end: false },
 ];

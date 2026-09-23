@@ -149,7 +149,7 @@ export function TriageResultPage() {
       </div>
 
       <div className="mt-4">
-        <ResolutionCard resolution={triage.resolution} />
+        <ResolutionCard resolution={triage.resolution} serviceName={triage.suggestedService.name} />
       </div>
 
       <div className="mt-6 flex justify-end gap-3">

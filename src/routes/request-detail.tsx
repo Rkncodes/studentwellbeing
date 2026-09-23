@@ -99,7 +99,13 @@ export function RequestDetailPage() {
         </div>
 
         {request.triage && <TriageSummaryCard triage={request.triage} />}
-        {request.triage && <ResolutionCard resolution={request.triage.resolution} />}
+        {request.triage && (
+          <ResolutionCard
+            resolution={request.triage.resolution}
+            serviceName={request.triage.suggestedService.name}
+            status={request.status}
+          />
+        )}
 
         <div className="rounded-xl border border-slate-200 bg-white p-5">
           <p className="mb-4 text-xs font-medium uppercase tracking-wide text-slate-400">Status Timeline</p>

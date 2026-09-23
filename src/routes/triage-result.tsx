@@ -4,6 +4,7 @@ import { CheckCircle2, Loader2, Pencil, FileWarning } from 'lucide-react';
 import { PageHeader } from '../components/common/PageHeader';
 import { UrgencyBadge } from '../components/common/UrgencyBadge';
 import { EmptyState } from '../components/common/EmptyState';
+import { ResolutionCard } from '../components/triage/ResolutionCard';
 import { CAMPUS_SERVICES } from '../config/campusServices';
 import type { TriageResult, Urgency } from '../models/triage';
 import { requestService } from '../services';
@@ -145,31 +146,35 @@ export function TriageResultPage() {
           <p className="mb-1 text-xs text-slate-500">Reason</p>
           <p className="text-sm text-slate-700">{triage.rationale}</p>
         </div>
+      </div>
 
-        <div className="mt-6 flex justify-end gap-3">
-          <Link
-            to="/new-request"
-            className="inline-flex items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-          >
-            Back
-          </Link>
-          <button
-            type="button"
-            onClick={handleConfirm}
-            disabled={isCreating}
-            className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isCreating ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Creating case…
-              </>
-            ) : (
-              <>
-                <CheckCircle2 className="h-4 w-4" /> Confirm &amp; Create Support Case
-              </>
-            )}
-          </button>
-        </div>
+      <div className="mt-4">
+        <ResolutionCard resolution={triage.resolution} />
+      </div>
+
+      <div className="mt-6 flex justify-end gap-3">
+        <Link
+          to="/new-request"
+          className="inline-flex items-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+        >
+          Back
+        </Link>
+        <button
+          type="button"
+          onClick={handleConfirm}
+          disabled={isCreating}
+          className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {isCreating ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" /> Creating case…
+            </>
+          ) : (
+            <>
+              <CheckCircle2 className="h-4 w-4" /> Confirm &amp; Create Support Case
+            </>
+          )}
+        </button>
       </div>
     </div>
   );

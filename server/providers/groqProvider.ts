@@ -2,6 +2,7 @@ import Groq from 'groq-sdk';
 import type { CampusService } from '../campusServices.js';
 import type { AIProvider, TriageResult } from './aiProvider.js';
 import { ProviderTriageSchema, buildTriageJsonSchema } from '../triageSchema.js';
+import { buildResolution } from '../resolution.js';
 
 const DEFAULT_MODEL = 'openai/gpt-oss-20b';
 const REQUEST_TIMEOUT_MS = 9000;
@@ -20,6 +21,10 @@ function buildPrompt(description: string, services: CampusService[]): string {
     '- Judge urgency conservatively but flag genuine crisis language (self-harm, safety threats) as "critical".',
     '- confidence is your own subjective estimate (0-1) of how well the request matches the chosen service, not a measured probability.',
     '- rationale should be a short, student-readable explanation.',
+    '- actionType: choose SELF_SERVICE only if the student can reasonably act on this themselves right now (e.g. a routine account/password issue). Choose STAFF_ASSISTANCE if a staff member needs to act. Choose ESCALATION for high/critical urgency situations needing urgent attention.',
+    '- actionRationale must only restate/interpret what the student wrote. Do NOT state specific institutional procedures, phone numbers, emails, URLs, office hours, or policies — you do not have verified access to those and must not invent them.',
+    '- caseTitle: a short, neutral, under-10-word summary suitable as a support case title.',
+    '- clarifyingQuestions: only include questions if your own confidence is below 0.6; otherwise return an empty array.',
     '',
     'Campus service catalog:',
     catalog,
@@ -72,6 +77,12 @@ export function createGroqProvider(apiKey: string, model = DEFAULT_MODEL): AIPro
           suggestedService: service,
           confidence: parsed.confidence,
           rationale: parsed.rationale,
+          resolution: buildResolution(service, parsed.urgency, {
+            actionType: parsed.actionType,
+            actionRationale: parsed.actionRationale,
+            caseTitle: parsed.caseTitle,
+            clarifyingQuestions: parsed.clarifyingQuestions,
+          }),
         };
       } finally {
         clearTimeout(timeout);

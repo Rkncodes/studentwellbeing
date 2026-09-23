@@ -7,6 +7,7 @@ import { LoadingState } from '../components/common/LoadingState';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { Timeline } from '../components/requests/Timeline';
 import { TriageSummaryCard } from '../components/triage/TriageSummaryCard';
+import { ResolutionCard } from '../components/triage/ResolutionCard';
 import type { RequestStatus, SupportRequest } from '../models/request';
 import { requestService } from '../services';
 
@@ -98,6 +99,7 @@ export function RequestDetailPage() {
         </div>
 
         {request.triage && <TriageSummaryCard triage={request.triage} />}
+        {request.triage && <ResolutionCard resolution={request.triage.resolution} />}
 
         <div className="rounded-xl border border-slate-200 bg-white p-5">
           <p className="mb-4 text-xs font-medium uppercase tracking-wide text-slate-400">Status Timeline</p>
